@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rent.house.renthouseofjap.dao.IFormDao">
+    <insert id="createFormInfo">
+        INSERT INTO formInfo (name, create_date) VALUES (#{name}, #{createDate})
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="createContent">
+        INSERT INTO content (form_id, form_json, form_data, create_date) VALUES (#{formID}, #{formJson}, #{formData}, #{createDate})
+    </insert>
+
+    <select id="selectLatest" resultType="com.rent.house.renthouseofjap.bean.FormBody">
+        select
+            t1.id as ID,
+            t1.name as formName,
+            t2.form_data as data,
+            t1.create_date as createDate,
+            t2.create_date as updateDate
+        from formInfo t1
+        left join content t2
+        on t1.id = t2.form_id
+        order by t2.create_date desc
+        limit 1
+    </select>
+
+    <select id="selectAllFormInfo" resultType="com.rent.house.renthouseofjap.daomain.FormInfo">
+        select id, name, create_date as createDate
+        from formInfo
+    </select>
+
+    <select id="selectContentById" resultType="com.rent.house.renthouseofjap.daomain.Content">
+        select
+            id,
+            form_id as formID,
+            form_json as formJson,
+            form_data as formData,
+            create_date as createDate
+        from content
+        <if test="id != null">
+            where form_id = #{id}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="selectFormBodyById" resultType="com.rent.house.renthouseofjap.bean.FormBody">
+        select
+            t1.id as ID,
+            t1.name as formName,
+            t2.form_data as data,
+            t1.create_date as createDate,
+            t2.create_date as updateDate
+        from formInfo t1
+                 left join content t2
+                           on t1.id = t2.form_id
+        <if test="id != null">
+            where t1.id = #{id}
+        </if>
+        order by t2.create_date desc
+    </select>
+
+
+</mapper>

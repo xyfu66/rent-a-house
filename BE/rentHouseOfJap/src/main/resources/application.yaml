@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+json:
+  file:
+    template: classpath:templates/formOrigin/
+    detail:
+      json: formJson.json
+      data: formData.json
+      info: formInfo.json
+  editing: refid
+
+spring:
+  profiles:
+    active: pro
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: jinyun
+  datasource:
+    url: jdbc:mysql://localhost:3306/rent_house
+    username: root
+    password: your password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 120000
+
+mybatis:
+  mapper-locations: classpath*:com/rent/house/renthouseofjap/dao/*.xml
