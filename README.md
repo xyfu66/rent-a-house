@@ -2,6 +2,7 @@
 
 ## Summary
 A simple form application developed with the illusion of renting a house in Tokyo.
+![首页](img/001.png) 
 
 ## Technology
 FE: Vue3, Element-plus, VForm.
